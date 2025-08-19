@@ -571,11 +571,13 @@ bool MainApp::OnInit()
     auto expireDate = buildDate + EXPIRES_AFTER_TIMEFRAME;
     auto currentDate = wxDateTime::Now();
     
+    /*
     if (currentDate > expireDate)
     {
         wxMessageBox("This version of FreeDV has expired. Please download a new version from freedv.org.", "Application Expired");
         return false;
     }
+    */
 #endif // UNOFFICIAL_RELEASE
     
     // Initialize RADE.
@@ -911,7 +913,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent, wxID_ANY, _("FreeDV ")
     auto expireDate = buildDate + EXPIRES_AFTER_TIMEFRAME;
     auto currentTitle = GetTitle();
     
-    currentTitle += wxString::Format(" [Expires %s]", expireDate.FormatDate());
+    currentTitle += wxString::Format(" [Build %s]", buildDate.FormatDate());
     SetTitle(currentTitle);
 #endif // defined(UNOFFICIAL_RELEASE)
     
