@@ -74,3 +74,9 @@ else
 fi
 
 make VERBOSE=1 -j$(sysctl -n hw.logicalcpu)
+
+# copy the app bundle to application folder
+
+cd $FREEDVGUIDIR
+sudo rm -fr /Applications/FreeDV.app
+sudo cp -R build_osx/src/FreeDV.app /Applications
