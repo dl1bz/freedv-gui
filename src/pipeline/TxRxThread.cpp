@@ -21,6 +21,8 @@
 //=========================================================================
 
 #include <chrono>
+#include <cmath>
+
 using namespace std::chrono_literals;
 
 // This forces us to use freedv-gui's version rather than another one.
@@ -272,8 +274,8 @@ void TxRxThread::initializePipeline_()
         // TX attenuation step
         auto txAttenuationStep = new LevelAdjustStep(outputSampleRate_, []() {
             double dbLoss = g_txLevel / 10.0;
-            double scaleFactor = exp(dbLoss/20.0 * log(10.0));
-            return scaleFactor; 
+            double scaleFactor = std::exp(dbLoss/20.0 * std::log(10.0));
+            return scaleFactor;
         });
         pipeline_->appendPipelineStep(std::shared_ptr<IPipelineStep>(txAttenuationStep));
     }
@@ -520,7 +522,7 @@ void* TxRxThread::Entry()
         numTimeSamples++; 
         if (d < minDuration) minDuration = d;
         if (d > maxDuration) maxDuration = d;
-        sumDuration += d; sumDoubleDuration += pow(d, 2);
+        sumDuration += d; sumDoubleDuration += std::pow(d, 2);
 #endif // defined(ENABLE_PROCESSING_STATS)
 
         // Determine whether we need to pause for a shorter amount
@@ -537,7 +539,7 @@ void* TxRxThread::Entry()
     }
 
 #if defined(ENABLE_PROCESSING_STATS)
-    log_info("m_tx = %d, min = %f ns, max = %f ns, mean = %f ns, stdev = %f ns", m_tx, minDuration, maxDuration, sumDuration / numTimeSamples, sqrt((sumDoubleDuration - pow(sumDuration, 2)/numTimeSamples) / (numTimeSamples - 1)));
+    log_info("m_tx = %d, min = %f ns, max = %f ns, mean = %f ns, stdev = %f ns", m_tx, minDuration, maxDuration, sumDuration / numTimeSamples, std::sqrt((sumDoubleDuration - std::pow(sumDuration, 2)/numTimeSamples) / (numTimeSamples - 1)));
 #endif // defined(ENABLE_PROCESSING_STATS)
 
     // Force pipeline to delete itself when we're done with the thread.
@@ -705,7 +707,7 @@ void TxRxThread::txProcessing_() noexcept
                 log_info("  nout: %d", nout);
             }
             
-            if (outputSamples.get() != nullptr)
+            if (outputSamples.get() != nullptr && nout > 0)
             {
                 codec2_fifo_write(cbData->outfifo1, outputSamples.get(), nout);
             }
