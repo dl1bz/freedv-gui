@@ -114,11 +114,14 @@ FilterDlg::FilterDlg(wxWindow* parent, bool running, bool *newMicInFilter, bool 
     
     m_ckboxAgcEnabled = new wxCheckBox(sb_speexpp, wxID_ANY, _("AGC"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     sbSizer_speexpp->Add(m_ckboxAgcEnabled, 0, wxALL | wxALIGN_LEFT, 5);
-    m_ckboxAgcEnabled->SetToolTip(_("Automatic gain control for microphone"));
+    m_ckboxAgcEnabled->SetToolTip(_("Automatic Gain Control for microphone"));
     
     m_ckbox700C_EQ = new wxCheckBox(sb_speexpp, wxID_ANY, _("700D/700E Auto EQ"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     sbSizer_speexpp->Add(m_ckbox700C_EQ, 0, wxALL | wxALIGN_LEFT, 5);
-    m_ckbox700C_EQ->SetToolTip(_("Automatic equalisation for FreeDV 700D/700E Codec input audio"));
+    m_ckbox700C_EQ->SetToolTip(_("ONLY for 700D/700E DV mode:\n"
+                                "Automatic equalization for FreeDV input audio.\n\n"
+                                "Has NO effect when using RADEV1,\n"
+                                "in that case, use the 3-band EQ instead."));
 
     bSizer30->Add(sbSizer_speexpp, 0, wxALL | wxEXPAND, 5);   
 
